@@ -1,5 +1,5 @@
 FROM seegno/bitcoind:0.13-alpine
-MAINTAINER  Shamal ""
+MAINTAINER  Shamal "shamal.siwan@state.ca.gov"
 
 COPY . /cert-issuer
 COPY conf_regtest.ini /etc/cert-issuer/conf.ini
