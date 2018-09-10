@@ -33,3 +33,4 @@ RUN apk add --update \
 
 
 ENTRYPOINT ["entrypoint.sh"]
+CMD ["bitcoind", "-testnet"]
