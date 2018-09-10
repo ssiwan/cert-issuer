@@ -1,5 +1,5 @@
 FROM seegno/bitcoind:0.13-alpine
-MAINTAINER Kim Duffy "kimhd@mit.edu"
+MAINTAINER  Shamal ""
 
 COPY . /cert-issuer
 COPY conf_regtest.ini /etc/cert-issuer/conf.ini
