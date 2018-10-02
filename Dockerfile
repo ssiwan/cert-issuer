@@ -33,4 +33,4 @@ RUN apk add --update \
 
 
 ENTRYPOINT ["/cert-issuer/entrypoint.sh"]
-CMD ["bitcoind", "-testnet", "-rescan"]
+CMD ["python", "app.py"]

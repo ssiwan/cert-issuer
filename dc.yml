@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: odicert-issuer11
+  name: odicert-issuer11
+  namespace: blockcert
+spec:
+  replicas: 1
+  selector:
+    app: odicert-issuer11
+    deploymentconfig: odicert-issuer11
+  strategy:
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: odicert-issuer11
+        deploymentconfig: odicert-issuer11
+    spec:
+      containers:
+      - env:
+        - name: BITCOIN_DATA
+          value: /.bitcoin
+        image: docker-registry.default.svc:5000/blockcert/odicert-issuer@sha256:76cc4031a15f042b2cd03e71fa4cbee4e68be8d124afc799f5e9db93407b3d6f
+        imagePullPolicy: Always
+        name: odicert-issuer11
+        ports:
+        - containerPort: 8332
+          protocol: TCP
+        - containerPort: 8333
+          protocol: TCP
+        - containerPort: 18332
+          protocol: TCP
+        - containerPort: 18333
+          protocol: TCP
+        - containerPort: 18444
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /.bitcoin
+          name: odicert-issuer11-1
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: odicert-issuer11-1
+        persistentVolumeClaim:
+          claimName: bcwalletdata
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - odicert-issuer11
+      from:
+        kind: ImageStreamTag
+        name: odicert-issuer:latest
+        namespace: blockcert
+    type: ImageChange
+
